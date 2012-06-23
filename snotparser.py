@@ -2,6 +2,8 @@
 
 import subprocess, re
 
+ADMINISTRATIVE_START_MARKER = "XXXXXXXXXXXXXXXXXX  Administrative Information Follows  XXXXXXXXXXXXXXXXXXXXXX"
+
 def parseTicket(number):
     process = subprocess.Popen(['snot', '-sr', str(number)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     
@@ -9,4 +11,3 @@ def parseTicket(number):
     for index, line in enumerate(rawTicket):
         print index, line,
 
-parseTicket(171171)
