@@ -14,7 +14,7 @@ def parseTicket(number):
     rawTicket = process.stdout.readlines()
     #print rawTicket[0]
     if "::::::::::::::" in rawTicket[0]: 
-        return "BAD TICKET"
+        return None 
 
     enumeratedRawTicket = enumerate(rawTicket)
     for index, line in enumeratedRawTicket:
