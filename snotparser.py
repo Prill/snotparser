@@ -44,9 +44,16 @@ def parseTicket(number):
 
     return ticketDictionary
 
-    
+def formatTicket(number, formatString):
+    ticketDictionary = parseTicket(number)
+     
+    if ticketDictionary:
+        return formatString % ticketDictionary 
+    else:
+        return "No ticket found"
+
     #return (bodyStartLine, administrativeStartLine)
     #return bodyStartLine
 
-for i in range(100000,110000):
-    print i, parseTicket(i)
+#for i in range(1,172155):
+#    print i, parseTicket(i)
