@@ -29,6 +29,17 @@ def parseTicket(number):
         if ADMINISTRATIVE_START_MARKER in line:
             administrativeStartLine = index
             break
+    # Usually the second line, which contains both the date and a from address, which may or
+    # may not be different from the "From:" line
+
+    for line in rawTicket[0:bodyStartLine]:
+        print "Attempting to find summary line"
+        match = re.match(r"^From\s*(?P<summary_line>.+)$", line)
+        if match:
+            print "Found summary line"
+            summary_email = re.search(r"\S*@\S*", match.group("summary_line"))
+            ticketDictionary["summary_email"] = summary_email
+            
 
     #print "Searching for from field"
     for line in rawTicket[0:bodyStartLine]:
