@@ -33,12 +33,11 @@ def parseTicket(number):
     # may not be different from the "From:" line
 
     for line in rawTicket[0:bodyStartLine]:
-        print "Attempting to find summary line"
         match = re.match(r"^From\s*(?P<summary_line>.+)$", line)
         if match:
-            print "Found summary line"
-            summary_email = re.search(r"\S*@\S*", match.group("summary_line"))
-            ticketDictionary["summary_email"] = summary_email
+            summary_email = re.search(r"(?P<email>\S*@\S*)", match.group("summary_line"))
+            ticketDictionary["summary_email"] = summary_email.group("email")
+            break
             
 
     #print "Searching for from field"
