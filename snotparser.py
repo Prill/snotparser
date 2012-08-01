@@ -51,8 +51,8 @@ def parseTicket(number):
         kvMatch = re.match("^(?P<key>.+?):\s+(?P<value>.*)$", line)
         if kvMatch:
             ticketDictionary[kvMatch.group("key").lower().replace(" ", "_")] = kvMatch.group("value")
-    if "assigned to" not in ticketDictionary:
-        ticketDictionary["assigned to"] = "unassigned"
+    # if "assigned to" not in ticketDictionary:
+    #     ticketDictionary["assigned_to"] = "unassigned"
     return ticketDictionary
 
 def formatTicket(number, formatString):
