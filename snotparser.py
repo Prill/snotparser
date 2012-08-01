@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import subprocess, re
+from string import Template
 
 ADMINISTRATIVE_START_MARKER = "XXXXXXXXXXXXXXXXXX  Administrative Information Follows  XXXXXXXXXXXXXXXXXXXXXX"
 TICKET_ERROR_MARKER = "::::::::::::::"
@@ -59,7 +60,7 @@ def formatTicket(number, formatString):
     ticketDictionary = parseTicket(number)
      
     if ticketDictionary:
-        return formatString % ticketDictionary 
+        return Template(formatString).safe_substitute(ticketDictionary)
     else:
         return "No ticket found"
 
