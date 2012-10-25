@@ -6,8 +6,8 @@ from string import Template
 ADMINISTRATIVE_START_MARKER = "XXXXXXXXXXXXXXXXXX  Administrative Information Follows  XXXXXXXXXXXXXXXXXXXXXX"
 TICKET_ERROR_MARKER = "::::::::::::::"
 
-def parseTicket(number):
-    process = subprocess.Popen(['snot', '-sr', str(number)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+def parseTicket(number, command='snot'):
+    process = subprocess.Popen([command, '-sr', str(number)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     
     bodyStartLine = 0
     administrativeStartLine = 0
@@ -57,8 +57,8 @@ def parseTicket(number):
     #     ticketDictionary["assigned_to"] = "unassigned"
     return ticketDictionary
 
-def formatTicket(number, formatString):
-    ticketDictionary = parseTicket(number)
+def formatTicket(number, formatString, command='snot'):
+    ticketDictionary = parseTicket(number, command)
      
     if ticketDictionary:
         return Template(formatString).safe_substitute(ticketDictionary)
