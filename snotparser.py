@@ -63,10 +63,50 @@ def formatTicket(number, formatString, command='snot'):
     if ticketDictionary:
         return Template(formatString).safe_substitute(ticketDictionary)
     else:
-        return "No ticket found"
+        return str(number) + ": No ticket found"
 
+# Formats a ticket dict using the newer formatting system
+def formatTicketDictSmart(ticketDict, formatString): 
+    # formatString will be in the form of "assigned_to,from_line,subject" csv
+    if not ticketDict:
+        return "No such ticket"
+
+    formatKeys = formatString.split(',')
+    formattedItems = []
+    for key in formatKeys:
+        key = key.strip()
+        if key == "from":
+            from_line = ticketDict["from_line"]
+            emailRegex = '\s?(?P<email>(?P<username>\S+?)@(?P<domain>\S+?))\s?'
+            m = re.match(r"^%s(\s.*)?$" % emailRegex, from_line) or re.match(r'^\s*?"?(?P<name>.+?)"? \<%s\>' % emailRegex, from_line)
+            if m:
+                md = m.groupdict()
+                emailFormatted = md["email"]
+                if re.match("(cat|cecs|ece|ee|cs|etm|me|mme|cee|ce)\.pdx\.edu", md["domain"]):
+                    emailFormatted = md["username"]
+                
+                itemText = ""
+                if "name" in md:
+                    formattedItems.append("%s (%s)" % (md["name"], emailFormatted))
+                else:
+                    formattedItems.append(emailFormatted)
+            else:
+                formattedItems.append("ERROR (yell at Wren)")
+        else:
+            if key in ticketDict and ticketDict[key].strip():
+                formattedItems.append(ticketDict[key])
+    return string.join(formattedItems, " | ")
     #return (bodyStartLine, administrativeStartLine)
     #return bodyStartLine
+
+def formatTicketSmart(number, formatString, command='snot'):
+    ticketDictionary = parseTicket(number, command)
+     
+    if ticketDictionary:
+        return formatTicketDictSmart(ticketDictionary, formatString)
+    else:
+        return str(number) + ": No ticket found"
+    
 
 #for i in range(1,172155):
 #    print i, parseTicket(i)
