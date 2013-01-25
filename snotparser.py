@@ -96,7 +96,13 @@ def formatTicketDictSmart(ticketDict, formatString):
             formattedItems.append("https://cat.pdx.edu/~snot/snot.cgi?command=View&ticket=%s" % ticketDict["number"])
         else:
             if key in ticketDict and ticketDict[key].strip():
-                formattedItems.append(ticketDict[key])
+                value = ticketDict[key].strip()
+                if key == "assigned_to":
+                    assignmentMatch = re.match(r"(?P<username>[^@]+)@?(?P<domain>\S*)", value)
+                    if (assignmentMatch):
+                        formattedItems.append(assignmentMatch.groupdict()["username"])
+                else:
+                    formattedItems.append(ticketDict[key])
     return string.join(formattedItems, " | ")
     #return (bodyStartLine, administrativeStartLine)
     #return bodyStartLine
