@@ -115,6 +115,14 @@ def formatTicketSmart(number, formatString, command='snot'):
     else:
         return str(number) + ": No ticket found"
     
+def getTicketHistory(number):
+    try:
+        number = int(number)
+        process = subprocess.Popen(['grep', "TKT: %d" % number, "/u/snot/logs/log"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        return process.stdout.readlines();
+    except ValueError as e:
+        return str(e)
+
 
 #for i in range(1,172155):
 #    print i, parseTicket(i)
