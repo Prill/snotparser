@@ -8,7 +8,7 @@ TICKET_ERROR_MARKER = "::::::::::::::"
 
 def parseTicket(number, command='snot'):
     process = subprocess.Popen([command, '-sr', str(number)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    
+
     bodyStartLine = 0
     administrativeStartLine = 0
     ticketDictionary = {}
@@ -40,7 +40,7 @@ def parseTicket(number, command='snot'):
             if summary_email:
                 ticketDictionary["summary_email"] = summary_email.group("email")
                 break
-            
+
 
     #print "Searching for from field"
     for line in rawTicket[0:bodyStartLine]:
@@ -59,7 +59,7 @@ def parseTicket(number, command='snot'):
 
 def formatTicket(number, formatString, command='snot'):
     ticketDictionary = parseTicket(number, command)
-     
+
     if ticketDictionary:
         return Template(formatString).safe_substitute(ticketDictionary)
     else:
@@ -84,7 +84,7 @@ def formatTicketDictSmart(ticketDict, formatString):
                 emailFormatted = md["email"]
                 if re.match("(cat|cecs|ece|ee|cs|etm|me|mme|cee|ce)\.pdx\.edu", md["domain"]):
                     emailFormatted = md["username"]
-                
+
                 itemText = ""
                 if "name" in md:
                     formattedItems.append("%s (%s)" % (md["name"], emailFormatted))
@@ -109,12 +109,12 @@ def formatTicketDictSmart(ticketDict, formatString):
 
 def formatTicketSmart(number, formatString, command='snot'):
     ticketDictionary = parseTicket(number, command)
-     
+
     if ticketDictionary:
         return formatTicketDictSmart(ticketDictionary, formatString)
     else:
         return str(number) + ": No ticket found"
-    
+
 def getTicketHistory(number):
     try:
         number = int(number)
