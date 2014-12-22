@@ -124,5 +124,9 @@ def getTicketHistory(number):
         return str(e)
 
 
-#for i in range(1,172155):
-#    print i, parseTicket(i)
+if __name__ == "__main__":
+    import sys
+    import os
+    snot_cmd = os.environ.get('SNOT_CMD', 'snot')
+    ticket_num = sys.argv[1]
+    print ticket_num, parseTicket(ticket_num, snot_cmd)
