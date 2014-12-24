@@ -20,7 +20,7 @@ def parseTicket(number, command='snot'):
     rawTicket = process.stdout.readlines()
     #print rawTicket[0]
     if TICKET_ERROR_MARKER in rawTicket[0]:
-        return None 
+        return None
 
     #print "Finding bodyStartLine"
     enumeratedRawTicket = enumerate(rawTicket)
@@ -45,7 +45,6 @@ def parseTicket(number, command='snot'):
                 ticketDictionary["summary_email"] = summary_email.group("email")
                 break
 
-
     #print "Searching for from field"
     for line in rawTicket[0:bodyStartLine]:
         match = re.match(r"^From:\s*(?P<from_line>.*)$", line)
@@ -62,6 +61,7 @@ def parseTicket(number, command='snot'):
     ticketDictionary['number'] = number
     return ticketDictionary
 
+
 def formatTicket(number, formatString, command='snot'):
     ticketDictionary = parseTicket(number, command)
 
@@ -70,8 +70,9 @@ def formatTicket(number, formatString, command='snot'):
     else:
         return str(number) + ": No ticket found"
 
+
 # Formats a ticket dict using the newer formatting system
-def formatTicketDictSmart(ticketDict, formatString): 
+def formatTicketDictSmart(ticketDict, formatString):
     # formatString will be in the form of "assigned_to,from_line,subject" csv
     if not ticketDict:
         return "No such ticket"
@@ -112,6 +113,7 @@ def formatTicketDictSmart(ticketDict, formatString):
     #return (bodyStartLine, administrativeStartLine)
     #return bodyStartLine
 
+
 def formatTicketSmart(number, formatString, command='snot'):
     ticketDictionary = parseTicket(number, command)
 
@@ -120,11 +122,12 @@ def formatTicketSmart(number, formatString, command='snot'):
     else:
         return str(number) + ": No ticket found"
 
+
 def getTicketHistory(number):
     try:
         number = int(number)
         process = subprocess.Popen(['grep', "TKT: %d" % number, "/u/snot/logs/log"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        return process.stdout.readlines();
+        return process.stdout.readlines()
     except ValueError as e:
         return str(e)
 
