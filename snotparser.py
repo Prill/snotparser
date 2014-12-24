@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 
-import subprocess, re, string
+import subprocess
+import string
+import re
+
 from string import Template
 
 ADMINISTRATIVE_START_MARKER = "XXXXXXXXXXXXXXXXXX  Administrative Information Follows  XXXXXXXXXXXXXXXXXXXXXX"
 TICKET_ERROR_MARKER = "::::::::::::::"
+
 
 def parseTicket(number, command='snot'):
     process = subprocess.Popen([command, '-sr', str(number)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -15,7 +19,7 @@ def parseTicket(number, command='snot'):
 
     rawTicket = process.stdout.readlines()
     #print rawTicket[0]
-    if TICKET_ERROR_MARKER in rawTicket[0]: 
+    if TICKET_ERROR_MARKER in rawTicket[0]:
         return None 
 
     #print "Finding bodyStartLine"
@@ -55,6 +59,7 @@ def parseTicket(number, command='snot'):
             ticketDictionary[kvMatch.group("key").lower().replace(" ", "_")] = kvMatch.group("value")
     # if "assigned to" not in ticketDictionary:
     #     ticketDictionary["assigned_to"] = "unassigned"
+    ticketDictionary['number'] = number
     return ticketDictionary
 
 def formatTicket(number, formatString, command='snot'):
