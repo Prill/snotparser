@@ -59,6 +59,13 @@ def parseTicket(number, command='snot'):
     # if "assigned to" not in ticketDictionary:
     #     ticketDictionary["assigned_to"] = "unassigned"
     ticketDictionary['number'] = number
+    if ticketDictionary['priority'].startswith('+'):
+        ticketDictionary['status'] = 'completed'
+    elif ticketDictionary.get('closed_by') is not None:
+        ticketDictionary['status'] = 'completed'
+    else:
+        ticketDictionary['status'] = 'open'
+
     return ticketDictionary
 
 
