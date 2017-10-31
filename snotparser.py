@@ -106,7 +106,7 @@ def formatTicketDictSmart(ticketDict, formatString):
             else:
                 formattedItems.append("ERROR (yell at Wren)")
         elif key == "url":
-            formattedItems.append("https://cat.pdx.edu/~snot/snot.cgi?command=View&ticket=%s" % ticketDict["number"])
+            formattedItems.append("https://snot.cat.pdx.edu/snot.cgi?command=View&ticket=%s" % ticketDict["number"])
         else:
             if key in ticketDict and ticketDict[key].strip():
                 value = ticketDict[key].strip()
